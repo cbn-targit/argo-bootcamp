@@ -1,0 +1,14 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: instavote
+  namespace: argocd
+spec:
+  sourceRepos:
+  destinations:
+  - namespace: staging
+    name: in-cluster
+    server: https://kubernetes.default.svc
+  - namespace: prod
+    name: in-cluster
+    server: https://kubernetes.default.svc

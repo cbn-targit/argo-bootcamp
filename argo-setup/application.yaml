@@ -1,0 +1,18 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: vote-staging 
+  namespace: argocd
+spec:
+  project: instavote
+  source:
+    repoURL: https://github.com/cbn-targit/argo-bootcamp.git
+    targetRevision: main
+    path: staging
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: staging
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

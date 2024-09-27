@@ -1,0 +1,18 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: vote-prod
+  namespace: argocd
+spec:
+  project: instavote
+  source:
+    repoURL: https://github.com/cbn-targit/argo-bootcamp.git
+    targetRevision: release 
+    path: prod 
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: prod 
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

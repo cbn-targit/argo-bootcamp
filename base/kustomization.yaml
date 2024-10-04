@@ -7,4 +7,4 @@ resources:
 images:
 - name: schoolofdevops/vote
   newName: git.norspang.dk/norspang/vote
-  newTag: "6840380"
+  newTag: 08c70de

@@ -1,19 +1,20 @@
 apiVersion: argoproj.io/v1alpha1
-kind: Workflow
+kind: WorkflowTemplate
 metadata:
-  generateName: vote-ci
+  name: vote-ci-template
+  namespace: argo-events
 spec:
   entrypoint: main
   arguments:
     parameters:
     - name: repo-url
-      value: "https://github.com/cbn-targit/argo-bootcamp.git"
+      value: "https://github.com/cbn-targit/vote.git"
     - name: branch
       value: "main"
     - name: image
       value: "git.norspang.dk/norspang/vote"
     - name: dockerfile
-      value: "vote/Dockerfile"
+      value: "Dockerfile"
 
   volumeClaimTemplates:
   - metadata:
@@ -95,7 +96,7 @@ spec:
       command: ["sh"]
       source: |
         #!bin/sh
-        cd /workspace/vote
+        cd /workspace
         pip install -r requirements.txt
       volumeMounts:
       - name: workspace
@@ -113,7 +114,7 @@ spec:
       command: ["/kaniko/executor"]
       args:
       - --dockerfile=/workspace/{{inputs.parameters.dockerfile}}
-      - --context=/workspace/vote
+      - --context=/workspace
       - --destination={{inputs.parameters.image}}:{{inputs.parameters.commit-sha}}
       - --force
       volumeMounts:
